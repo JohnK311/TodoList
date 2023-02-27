@@ -1,5 +1,5 @@
 <template>
-  <select name="" id="" :value="modelValue" @change="changeOption">
+  <select name="" id="" :value="modelValue" @change="changeOption" class="form-select form-select-sm mb-3">
 
     <option value="" disabled>Выберите список задач</option>
     <option v-for="option in options" :key="option.value" :value="option.value">{{ option.name }}</option>
