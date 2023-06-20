@@ -1,49 +1,46 @@
 <template>
 
-    <form action="post" name="addTasks" @submit.prevent>
-
-      <my-input v-model="task.title" name="title" placeholder="Название задачи" id="title" />
-
-      <my-input v-model="task.body" type="text" name="body" id="body" placeholder="Описание" />
-      <my-button @click="createTask">Создать задачу</my-button>
-
+    <form @submit.prevent="addTask">
+      <my-input name="title" placeholder="Введите задачу" id="title" :value="nameTask" @input="updateNameTask"/>
+      <my-button type="submit">Создать задачу</my-button>
     </form>
 
 </template>
 
 <script>
-import MyInput from '../../src/components/UI/MyInput.vue';
-import MySelect from './UI/MySelect.vue';
+import MyInput from './UI/MyInput.vue';
+import { mapActions, mapState, mapGetters } from 'vuex';
 
 export default {
-  components: { MyInput, MySelect },
+  components: { MyInput },
 
-  data() {
-    return {
-      task: {
-        title: '',
-        body: '',
-        complite: false
-      }
-    }
+  computed: {
+    ...mapState({
+      nameTask: state => state.nameTask
 
+    })
   },
+
   methods: {
+    updateNameTask(e){
+      this.$store.commit('updateNameTask', e.target.value)
 
-    createTask() {
-      if (this.task.title !== '' || this.task.body !== '') {
-        this.task.id = Date.now();
-        this.$emit('create', this.task);
-      }
-
-      this.task = {
-        title: '',
-        body: '',
-        complite: false
-      }
     },
+    ...mapActions(['createTask']),
 
-  }
+    addTask() {
+        const task = {
+          id: Date.now(),
+          title: this.nameTask,
+        };
+        this.createTask(task);
+        this.$store.commit('clearForm')
+
+
+    },
+  },
+
+
 }
 </script>
 
@@ -55,20 +52,13 @@ form {
   align-items: flex-end;
 }
 
-.selectDiv{
-  display: flex;
-  justify-content: flex-end;
-  height: 30px;
+::placeholder {
+  color: #8c8c8c;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* #createTask {
-  padding: 15px 20px;
-  background-color: #0cb980;
-  font-size: 16px;
-  color: #ffffff;
-  border-radius: 10px;
-  width: 170px;
-  margin-top: 30px;
-  transition: 0.3s ease-out;
-} */
+.d-flex input[type='text'] {
+  margin-bottom: 20px;
+}
 </style>

@@ -11,16 +11,6 @@ export default {
 </script>
 
 <style scoped>
-/* .btn {
-  padding: 15px 20px;
-  background-color: #0cb980;
-  border: #0cb980;
-  font-size: 16px;
-  color: #ffffff;
-  border-radius: 10px;
-  width: 170px;
-  transition: 0.3s ease-out;
-} */
 
 .btn {
   background-color: #0cb980;

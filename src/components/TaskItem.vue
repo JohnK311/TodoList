@@ -3,18 +3,12 @@
 
     <div class="card mb-3 mt-3">
       <div class="card-body">
-        <h3 class="card-title">{{ task.title }}</h3>
-        <p class="card-text">{{ task.body }}</p>
-
-        <my-button @click="$emit('remove', task)" style="background-color: red;">
+        <h3 class="card-title"></h3>
+        <my-button style="background-color: red;">
           Удалить
         </my-button>
 
-        <my-button @click="$emit('complite', task)" v-if="task.complite === false">
-          Завершить
-        </my-button>
-
-        <my-button disabled @click="$emit('complite', task)" v-else>
+        <my-button >
           Завершить
         </my-button>
 
@@ -29,12 +23,11 @@
 <script>
 
 export default {
-  props: {
-    task: {
-      type: Object,
-      required: true,
-    }
-  }
+computed: {
+  activeTasks(){
+      return this.$store.getters.activeTasks;
+    },
+}
 }
 </script>
 

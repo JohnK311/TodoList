@@ -1,45 +1,82 @@
 <template>
-  <div v-if="tasks.length > 0">
-    <transition-group name="task-list">
-    <task-item v-for="task in tasks" :key="task.id" :task="task" @remove="$emit('remove', task)" @complite="$emit('complite', task)">
-
-    </task-item>
-  </transition-group>
+  <div>
+    <h2>Задачи</h2>
+    <ul>
+      <li v-for="task in tasks" :key="task.id">
+        <span :contenteditable="contenteditable">{{ task.title }}</span>
+        <div class="func-btns">
+          <my-button class="edit" @click="editTask(task)">Edit</my-button>
+          <my-button class="delete" @click="deleteTask(task.id)">Delete</my-button>
+        </div>
+      </li>
+    </ul>
   </div>
-
-  <h3 v-else>Список задач пуст</h3>
 </template>
 
 <script>
 
-import TaskItem from './TaskItem.vue';
+import { mapState, mapActions } from 'vuex';
+import MyButton from './UI/MyButton.vue';
 
 export default {
-  components: { TaskItem },
+  components: { MyButton },
 
-  props: {
-    tasks: {
-      type: Array,
-      required: true,
+  data(){
+    return{
+      contenteditable: false,
     }
-  }
-}
+  },
+
+  computed: {
+    ...mapState(['tasks']),
+  },
+
+  methods: {
+    ...mapActions(['removeTask', 'modifyTask']),
+
+    deleteTask(taskId) {
+      this.removeTask(taskId);
+    },
+
+    editTask(task) {
+
+      const updatedTitle = prompt('Enter the updated title:', task.title);
+      if (updatedTitle) {
+        const updatedTask = { ...task, title: updatedTitle };
+        this.modifyTask(updatedTask);
+      }
+
+    },
+  },
+};
 </script>
 
 <style scoped>
 
-.task-list-item {
-  display: inline-block;
-  margin-right: 10px;
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
 }
-.task-list-enter-active,
-.task-list-leave-active {
-  transition: all 0.5s ease;
+
+ul li {
+  border: 1px solid #f2f2f2;
+  border-radius: .5rem;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.task-list-enter-from,
-.task-list-leave-to {
-  opacity: 0;
-  transform: translateX(130px);
+
+.delete{
+  background-color: red;
+}
+
+.delete:hover{
+  background-color: darkred;
 }
 
 </style>
