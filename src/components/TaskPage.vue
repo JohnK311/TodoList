@@ -2,7 +2,7 @@
   <div>
     <div class="container-xl">
       <header>
-      <h1><router-link to="/">To do List</router-link></h1>
+      <h1><router-link to="/" class="custom-link">To do List</router-link></h1>
       </header>
     </div>
     <section>
@@ -56,11 +56,14 @@ header {
   font-size: 24px;
 }
 
+.custom-link{
+  color: black;
+  text-decoration: none;
+}
+
 h1 {
   margin: 0 auto;
   text-align: center;
-  color: black;
-  text-decoration: none;
 }
 
 h2 {

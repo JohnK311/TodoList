@@ -35,8 +35,6 @@ export default {
         };
         this.createTask(task);
         this.$store.commit('clearForm')
-
-
     },
   },
 
